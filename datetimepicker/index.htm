@@ -1,0 +1,97 @@
+<html>
+<head>
+    <link rel="stylesheet" media="all" type="text/css" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" media="all" type="text/css" href="jquery-ui-timepicker-addon.css" />
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="jalaliCalendar.js"></script>
+    <script type="text/javascript" src="jquery-ui-timepicker-addon.js"></script>
+    <script type="text/javascript" src="jquery-ui-timepicker-addon-i18n.js"></script>
+</head>
+<body>
+    <input type="text" id="date1">
+    <br><br><br>
+    <input type="text" id="date2">
+    <br><br><br>
+    <input type="text" id="date3">
+    <br><br><br>
+    <input type="text" id="date4">
+    <script>
+        $(document).ready(function(){
+            var availableDates = ["1394-11-24", "1394-11-19"];
+            $('#date1').datetimepicker({
+                dateFormat: 'yy-mm-dd',
+                timeFormat: 'HH:mm',
+                showButtonPanel:  false,
+                isRTL: true,
+                timeText: 'زمان',
+                hourText: 'ساعت',
+                minuteText: 'دقیقه',
+                changeMonth: true,
+                changeYear: true,
+                hourGrid: 0,
+                minuteGrid: 15,
+                minTime: '8:10',
+                maxTime: '17:00',
+                minDate: 0,
+                maxDate: 45,
+//                controlType: 'select',
+//                timeInput: true,
+
+                stepHour: 2,
+                stepMinute: 10,
+                stepSecond: 10,
+
+                beforeShowDay: function(date){
+                    return [ date.getDay() != 7 && date.getDay() != 4 && nonavailable(date) ]
+                },
+            });
+//            $('#date2').datepicker();
+            $('#date2').timepicker();
+            /*$('#date2').datetimepicker({
+                dateFormat: 'yy-mm-dd',
+                timeFormat: 'HH:mm',
+                showButtonPanel:  false,
+                isRTL: true,
+                timeText: 'زمان',
+                hourText: 'ساعت',
+                minuteText: 'دقیقه',
+                changeMonth: true,
+                changeYear: true,
+                minDate: 4,
+                maxDate: 15,
+                minTime: '8:10',
+                maxTime: '17:00',
+                beforeShowDay: function(date){
+                    return [ date.getDay() == 0 || nonavailable(date) ]
+                },
+            });*/
+            var startDateTextBox = $('#date1');
+            var endDateTextBox = $('#date2');
+
+            $('#date3').datepicker({
+                dateFormat: 'MM yy',
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+
+                onClose: function(dateText, inst) {
+                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                    $(this).val($.datepicker.formatDate('MM yy', new Date(year, month, 1)));
+                }
+            });
+
+            function nonavailable(date) {
+                dmy = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+                if ($.inArray(dmy, availableDates) != -1) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
